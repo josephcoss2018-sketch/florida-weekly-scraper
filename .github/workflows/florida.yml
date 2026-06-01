@@ -32,3 +32,17 @@ jobs:
           name: florida-candidates-report-${{ github.run_id }}
           path: florida_reports/
           retention-days: 90
+
+      - name: Send email with results
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.GMAIL_USER }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "Florida 2026 Candidates — Weekly Scrape #${{ github.run_number }}"
+          to: joseph.coss2018@gmail.com
+          from: GitHub Actions <${{ secrets.GMAIL_USER }}>
+          body: "Attached is the latest Florida 2026 General Election Candidates Excel file from run #${{ github.run_number }}."
+          attachments: florida_reports/*.xlsx
